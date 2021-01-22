@@ -1,0 +1,6 @@
+.login {
+  padding: 2rem;
+  display: grid;
+  gap: 1rem;
+  grid-template-rows: 2fr 1fr 2fr;
+}

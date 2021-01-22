@@ -1,0 +1,39 @@
+.trivia-card {
+  display: grid;
+  grid-template-rows: 2fr 5fr;
+  height: 100%;
+}
+
+.question-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 2rem;
+  font-weight: bold;
+}
+
+.answers-container {
+  display: grid;
+  grid-template-rows: repeat(5 1fr);
+  gap: 0.5rem;
+}
+
+.answers-container > .answer {
+  margin: 0 auto;
+  width: 95%;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.15);
+  transition: 0.3s;
+}
+
+.answers-container > .answer:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  background-color: lightskyblue;
+}
