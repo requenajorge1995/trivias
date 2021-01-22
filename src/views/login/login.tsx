@@ -23,6 +23,7 @@ function Login(props: Props) {
 
   return (
     <div className="login">
+      <h1>Trivia's App</h1>
       <TextInput name="Full name:" handleChange={setName} value={name} />
       <CustomSelect
         defaultMessage="Select your country"

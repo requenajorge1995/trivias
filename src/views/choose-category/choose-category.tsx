@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './choose-category.css';
+
 import { Category } from '../../types';
 import useCategories from '../../hooks/useCategories';
 import CustomSelect from '../../components/custom-select/custom-select';
@@ -15,10 +17,11 @@ function ChooseCategory(props: Props) {
 
   return (
     <div className="choose-category">
+      <h1>Pick a Category</h1>
       <CustomSelect
         entries={categories.map((category) => [category, category.name])}
         handleChange={setCategory}
-        defaultMessage="Select a category"
+        defaultMessage="Categories"
       />
     </div>
   );

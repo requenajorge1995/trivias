@@ -11,6 +11,8 @@ export default function useChronometer() {
   return { value, start, stop, isRunning, formattedTime };
 
   function start() {
+    if (isRunning) return;
+
     countRef.current = setInterval(() => {
       setValue((prev) => prev + 1);
     }, 1000);
@@ -18,6 +20,8 @@ export default function useChronometer() {
   }
 
   function stop() {
+    if (!isRunning) return;
+
     clearInterval(countRef.current);
     setIsRunning(false);
   }

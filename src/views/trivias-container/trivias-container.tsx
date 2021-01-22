@@ -1,55 +1,38 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react';
 
 import './trivias-container.css';
-import { Result } from '../../types';
 
-import useTrivias from '../../hooks/useTrivias';
-import useUserAnswers from '../../hooks/useUserAnswers';
-import useChronometer from '../../hooks/useChronometer';
+import { Trivia } from '../../types';
 
 import CustomButton from '../../components/custom-button/custom-button';
 import TriviaCard from '../../components/trivia-card/trivia-card';
-import LoaderAnimation from '../../components/loader-animation/loader-animation';
 
 function TriviasContainer(props: Props) {
-  const { categoryId, setResult } = props;
-  const chronometer = useChronometer();
-  const { trivias, error, isLoading } = useTrivias(categoryId);
-  const { userAnswers, addUserAnswer, removeLastAnswer } = useUserAnswers();
-
-  switch (true) {
-    case isLoading:
-      return <LoaderAnimation />;
-    case !!error:
-      return <h1>{error}</h1>;
-    case !chronometer.isRunning:
-      chronometer.start();
-      break;
-    case userAnswers.length === trivias.length:
-      chronometer.stop();
-      setResult({
-        correctAnswers: validateUserAnswers(),
-        time: chronometer.value,
-      });
-      break;
-  }
+  const {
+    trivias,
+    questionNumber,
+    addUserAnswer,
+    removeLastAnswer,
+    time,
+  } = props;
 
   return (
     <div className="trivias-container">
       <div className="trivias-container-header">
         <span className="question-number">
-          Question: {userAnswers.length + 1} / {trivias.length}
+          Question: {questionNumber + 1} / {trivias.length}
         </span>
-        <span className="chronometer">Time: {chronometer.formattedTime()}</span>
+        <span className="chronometer">Time: {time}</span>
       </div>
       <div className="trivia-wrapper">
         <TriviaCard
-          trivia={trivias[userAnswers.length]}
+          trivia={trivias[questionNumber]}
           setUserAnswer={addUserAnswer}
         />
       </div>
       <div className="button-container">
-        {userAnswers.length > 0 && (
+        {questionNumber > 0 && (
           <CustomButton onClick={removeLastAnswer}>
             Previous Question
           </CustomButton>
@@ -57,18 +40,14 @@ function TriviasContainer(props: Props) {
       </div>
     </div>
   );
-
-  function validateUserAnswers(): number {
-    return userAnswers.reduce((counter, answer, index) => {
-      if (answer === trivias[index].correctAnswer) return counter++;
-      return counter;
-    }, 0);
-  }
 }
 
 type Props = {
-  categoryId: number;
-  setResult(result: Result): void;
+  trivias: Trivia[];
+  time: string;
+  questionNumber: number;
+  addUserAnswer(answer: string): void;
+  removeLastAnswer(): void;
 };
 
 export default TriviasContainer;

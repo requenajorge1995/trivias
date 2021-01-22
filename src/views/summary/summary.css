@@ -1,0 +1,43 @@
+.summary-contianer {
+  padding: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 850px;
+  margin: auto;
+}
+
+.congrats-messaage {
+  margin-bottom: 2rem;
+}
+
+.congrats-messaage > span {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.congrats-messaage > span:first-child {
+  font-size: 2rem;
+  font-weight: bolder;
+  margin-bottom: 0.5rem;
+}
+
+.ranking-table {
+  border-radius: 5px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.15);
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  padding-top: 0;
+}
+
+.ranking-table .table-title {
+  width: 100%;
+  font-size: 1.2rem;
+  font-weight: bolder;
+}
+
+.ranking-record.current-user {
+  background-color: lightskyblue;
+}

@@ -9,13 +9,16 @@ function CustomSelect<T>(props: Props<T>) {
       onChange={(event) =>
         handleChange(entries[parseInt(event.target.value)][0])
       }
+      defaultValue={-1}
     >
-      <option disabled selected>
+      <option value={-1} disabled>
         {defaultMessage}
       </option>
 
       {entries.map(([, name], index) => (
-        <option value={index}>{name}</option>
+        <option key={index} value={index}>
+          {name}
+        </option>
       ))}
     </select>
   );

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Trivia } from '../types';
+import { decodeEntities } from '../utils';
 
 export default function useTrivias(categoryId: number) {
   const [trivias, setTrivias] = useState([] as Trivia[]);
@@ -14,9 +15,9 @@ export default function useTrivias(categoryId: number) {
 
         const trivias = ((await res.json()) as ApiDataResponse)
           .results.map(trivia => ({
-            question: decodeURI(trivia.question),
-            correctAnswer: decodeURI(trivia.correct_answer),
-            incorrectAnswers: trivia.incorrect_answers.map(decodeURI)
+            question: decodeEntities(trivia.question),
+            correctAnswer: decodeEntities(trivia.correct_answer),
+            incorrectAnswers: trivia.incorrect_answers.map(decodeEntities)
           }));
 
         setTrivias(trivias);
