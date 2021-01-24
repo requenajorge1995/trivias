@@ -36,6 +36,7 @@ function TriviasHandler(props: Props) {
       />
     );
 
+  chronometer.stop();
   return (
     <Summary
       userInfo={userInfo}
