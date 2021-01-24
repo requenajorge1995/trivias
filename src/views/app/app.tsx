@@ -6,7 +6,7 @@ import { UserInfo, Category } from '../../types';
 
 import Login from '../login/login';
 import ChooseCategory from '../choose-category/choose-category';
-import TriviasHandler from '../trivias-handler/trivias-handler-alternative';
+import TriviasHandler from '../trivias-handler/trivias-handler';
 
 import { TriviasApiDataResponse } from '../../types';
 import withFetch from '../../hoc/withFetch';
