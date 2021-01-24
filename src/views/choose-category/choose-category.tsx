@@ -3,17 +3,12 @@ import React from 'react';
 import './choose-category.css';
 
 import { Category } from '../../types';
-import useCategories from '../../hooks/useCategories';
 import CustomSelect from '../../components/custom-select/custom-select';
-import LoaderAnimation from '../../components/loader-animation/loader-animation';
+import withFetch from '../../hoc/withFetch';
 
 function ChooseCategory(props: Props) {
-  const { setCategory } = props;
-  const { categories, isLoading, error } = useCategories();
-
-  if (isLoading) return <LoaderAnimation />;
-
-  if (error) return <h1>{error}</h1>;
+  const { setCategory, fetchedData } = props;
+  const { trivia_categories: categories } = fetchedData;
 
   return (
     <div className="choose-category">
@@ -29,6 +24,11 @@ function ChooseCategory(props: Props) {
 
 type Props = {
   setCategory(category: Category): void;
+  fetchedData: ApiDataResponse;
 };
 
-export default ChooseCategory;
+type ApiDataResponse = { trivia_categories: Category[] };
+
+export default withFetch<ApiDataResponse>(
+  'https://opentdb.com/api_category.php'
+)(ChooseCategory);

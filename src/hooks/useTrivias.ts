@@ -2,34 +2,28 @@ import { useState, useEffect } from 'react';
 import { Trivia } from '../types';
 import { decodeEntities } from '../utils';
 
+
+import useFetch from './useFetch';
+
 export default function useTrivias(categoryId: number) {
-  const [trivias, setTrivias] = useState([] as Trivia[]);
-  const [error, setError] = useState(null as Error | null);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, isLoading, error } = useFetch<ApiDataResponse>(`https://opentdb.com/api.php?amount=20&category=${categoryId}&type=multiple`);
+
+  const [trivias, setTrivias] = useState<Trivia[]>([]);
 
   useEffect(() => {
-    (async function () {
-      try {
-        const res = await fetch(`https://opentdb.com/api.php?amount=20&category=${categoryId}&type=multiple`);
-        if (!res.ok) throw new Error(res.statusText);
+    if (isLoading || error || !data) return;
 
-        const trivias = ((await res.json()) as ApiDataResponse)
-          .results.map(trivia => ({
-            question: decodeEntities(trivia.question),
-            correctAnswer: decodeEntities(trivia.correct_answer),
-            incorrectAnswers: trivia.incorrect_answers.map(decodeEntities)
-          }));
+    setTrivias(
+      data.results.map(trivia => ({
+        question: decodeEntities(trivia.question),
+        correctAnswer: decodeEntities(trivia.correct_answer),
+        incorrectAnswers: trivia.incorrect_answers.map(decodeEntities)
+      }))
 
-        setTrivias(trivias);
-      } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, [categoryId]);
+    );
+  }, [data, isLoading, error]);
 
-  return { trivias, error, isLoading };
+  return { trivias, isLoading, error };
 }
 
 interface ApiDataResponse {

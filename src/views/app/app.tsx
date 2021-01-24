@@ -6,11 +6,18 @@ import { UserInfo, Category } from '../../types';
 
 import Login from '../login/login';
 import ChooseCategory from '../choose-category/choose-category';
-import TriviasHandler from '../trivias-handler/trivias-handler';
+import TriviasHandler from '../trivias-handler/trivias-handler-alternative';
+
+import { TriviasApiDataResponse } from '../../types';
+import withFetch from '../../hoc/withFetch';
 
 function App() {
-  const [userInfo, setUserInfo] = useState(undefined as UserInfo | undefined);
-  const [category, setCategory] = useState(undefined as Category | undefined);
+  const [userInfo, setUserInfo] = useState<UserInfo | undefined>(undefined);
+  const [category, setCategory] = useState<Category | undefined>(undefined);
+
+  const TriviasHandlerWithFetch = withFetch<TriviasApiDataResponse>(
+    `https://opentdb.com/api.php?amount=20&category=${category?.id}&type=multiple`
+  )(TriviasHandler);
 
   return <div className="app">{renderSwitch()}</div>;
 
@@ -21,9 +28,7 @@ function App() {
       case !category:
         return <ChooseCategory setCategory={setCategory} />;
       default:
-        return (
-          <TriviasHandler categoryId={category!.id} userInfo={userInfo!} />
-        );
+        return <TriviasHandlerWithFetch userInfo={userInfo!} />;
     }
   }
 }

@@ -6,13 +6,14 @@ import { Trivia } from '../../types';
 
 function TriviaCard(props: Props) {
   const {
-    trivia: { question, correctAnswer, incorrectAnswers },
     setUserAnswer,
+    trivia: { question, correctAnswer, incorrectAnswers },
   } = props;
 
   const answers = useMemo(
     () => [...incorrectAnswers, correctAnswer].sort(() => Math.random() - 0.5),
-    [incorrectAnswers, correctAnswer]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [correctAnswer]
   );
 
   return (

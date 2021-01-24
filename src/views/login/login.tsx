@@ -5,21 +5,18 @@ import './login.css';
 import CustomSelect from '../../components/custom-select/custom-select';
 import TextInput from '../../components/text-input/text-input';
 import CustomButton from '../../components/custom-button/custom-button';
-import LoaderAnimation from '../../components/loader-animation/loader-animation';
 
 import { UserInfo } from '../../types';
-import useCountries from '../../hooks/useCountries';
+
+import withFetch from '../../hoc/withFetch';
 
 function Login(props: Props) {
-  const { setUserInfo } = props;
+  const { setUserInfo, fetchedData } = props;
 
   const [name, setName] = useState('');
   const [country, setCountry] = useState('');
-  const { countries, isLoading, error } = useCountries();
 
-  if (isLoading) return <LoaderAnimation />;
-
-  if (error) return <h1>{error}</h1>;
+  const countries = fetchedData.map((country) => country.name);
 
   return (
     <div className="login">
@@ -45,8 +42,13 @@ function Login(props: Props) {
   }
 }
 
+type ApiDataResponse = { name: string; [x: string]: any }[];
+
 type Props = {
   setUserInfo(userInfo: UserInfo): void;
+  fetchedData: ApiDataResponse;
 };
 
-export default Login;
+export default withFetch<ApiDataResponse>(
+  'https://restcountries.eu/rest/v2/all'
+)(Login);

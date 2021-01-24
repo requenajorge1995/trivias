@@ -19,3 +19,12 @@ export interface Trivia {
   incorrectAnswers: string[];
 }
 
+export type TriviasApiDataResponse = {
+  results: {
+    question: string;
+    correct_answer: string;
+    incorrect_answers: string[];
+    [x: string]: any;
+  }[];
+  [x: string]: any;
+};
